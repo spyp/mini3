@@ -9,7 +9,7 @@
  *
  */
 
-namespace Mini\Controller;
+namespace App\Controller;
 
 class ErrorController
 {

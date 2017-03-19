@@ -1,6 +1,6 @@
 <?php
 /** For more info about namespaces plase @see http://php.net/manual/en/language.namespaces.importing.php */
-namespace Mini\Core;
+namespace App\Core;
 
 class Application
 {
@@ -21,36 +21,41 @@ class Application
     {
         // create array with URL parts in $url
         $this->splitUrl();
+    }
 
+    public function run()
+    {
+        // run container and needed tools
+        $container = Container::getInstance();
         // check for controller: no controller given ? then load start-page
         if (!$this->url_controller) {
 
-            $page = new \Mini\Controller\HomeController();
-            $page->index();
+            $page = new \App\Controller\HomeController();
+            $container->controller = $page;
+            return  $page->index();
 
-        } elseif (file_exists(APP . 'Controller/' . ucfirst($this->url_controller) . 'Controller.php')) {
+        }
+        elseif (file_exists(APP . 'Controller/' . ucfirst($this->url_controller) . 'Controller.php')) {
             // here we did check for controller: does such a controller exist ?
-
             // if so, then load this file and create this controller
             // like \Mini\Controller\CarController
-            $controller = "\\Mini\\Controller\\" . ucfirst($this->url_controller) . 'Controller';
-            $this->url_controller = new $controller();
+            $controller = "\\App\\Controller\\" . ucfirst($this->url_controller) . 'Controller';
+            $container->controller = $this->url_controller  = new $controller();
 
             // check for method: does such a method exist in the controller ?
             if (method_exists($this->url_controller, $this->url_action)) {
-
                 if (!empty($this->url_params)) {
                     // Call the method and pass arguments to it
-                    call_user_func_array(array($this->url_controller, $this->url_action), $this->url_params);
+                   return call_user_func_array(array($this->url_controller, $this->url_action), $this->url_params);
                 } else {
                     // If no parameters are given, just call the method without parameters, like $this->home->method();
-                    $this->url_controller->{$this->url_action}();
+                    return $this->url_controller->{$this->url_action}();
                 }
 
             } else {
                 if (strlen($this->url_action) == 0) {
                     // no action defined: call the default index() method of a selected controller
-                    $this->url_controller->index();
+                    return $this->url_controller->index();
                 } else {
                     header('location: ' . URL . 'error');
                 }

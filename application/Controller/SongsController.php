@@ -12,9 +12,9 @@
  *
  */
 
-namespace Mini\Controller;
+namespace App\Controller;
 
-use Mini\Model\Song;
+use App\Model\Song;
 
 class SongsController
 {

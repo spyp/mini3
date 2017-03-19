@@ -1,6 +1,6 @@
 <?php
 
-namespace Mini\Libs;
+namespace App\Libs;
 
 class Helper
 {

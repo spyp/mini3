@@ -14,12 +14,14 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "philo/laravel-blade":"2.*"
+    },
     "autoload":
     {
         "psr-4":
         {
-            "Mini\\" : "application/"
+            "App\\" : "application/"
         }
     }
 }

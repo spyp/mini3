@@ -11,7 +11,7 @@ namespace App\Controller;
 
 use App\Core\Controller;
 
-class HomeController extends Controller
+class TestController extends Controller
 {
     public function index()
     {

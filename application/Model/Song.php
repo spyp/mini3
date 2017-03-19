@@ -10,9 +10,9 @@
  *
  */
 
-namespace Mini\Model;
+namespace App\Model;
 
-use Mini\Core\Model;
+use App\Core\Model;
 
 class Song extends Model
 {
