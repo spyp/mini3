@@ -13,7 +13,7 @@ use App\Core\Controller;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function getIndex()
     {
         $this->tpl = 'home.index';
         return $this->view();

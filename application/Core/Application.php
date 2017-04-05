@@ -32,7 +32,7 @@ class Application
 
             $page = new \App\Controller\HomeController();
             $container->controller = $page;
-            return  $page->index();
+            return  $page->getIndex();
 
         }
         elseif (file_exists(APP . 'Controller/' . ucfirst($this->url_controller) . 'Controller.php')) {
@@ -46,7 +46,7 @@ class Application
             if (method_exists($this->url_controller, $this->url_action)) {
                 if (!empty($this->url_params)) {
                     // Call the method and pass arguments to it
-                   return call_user_func_array(array($this->url_controller, $this->url_action), $this->url_params);
+                    return call_user_func_array(array($this->url_controller, $this->url_action), $this->url_params);
                 } else {
                     // If no parameters are given, just call the method without parameters, like $this->home->method();
                     return $this->url_controller->{$this->url_action}();
@@ -55,7 +55,7 @@ class Application
             } else {
                 if (strlen($this->url_action) == 0) {
                     // no action defined: call the default index() method of a selected controller
-                    return $this->url_controller->index();
+                    return $this->url_controller->getIndex();
                 } else {
                     header('location: ' . URL . 'error');
                 }
@@ -82,7 +82,9 @@ class Application
             // @see http://davidwalsh.name/php-shorthand-if-else-ternary-operators
             $this->url_controller = isset($url[0]) ? $url[0] : null;
             $this->url_action = isset($url[1]) ? $url[1] : null;
-
+            // if isset url_action add request
+            if($this->url_action)
+                $this->url_action = strtolower($_SERVER['REQUEST_METHOD']).ucfirst($this->url_action);
             // Remove controller and action from the split URL
             unset($url[0], $url[1]);
 

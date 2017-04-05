@@ -31,7 +31,7 @@ abstract class Controller
     public function view()
     {
         $this->media();
-        $this->parameters = array_merge($this->parameters,array(
+        $this->assign(array(
             'css' => $this->css,
             'js' => $this->js,
         ));
@@ -54,5 +54,16 @@ abstract class Controller
             'js/bootstrap.min.js',
             'js/plugins/handlebars/handlebars.min.js',
         ));
+    }
+
+    protected function assign($key, $value = false)
+    {
+        if (is_array($key))
+            foreach ($key as $index => $value)
+            {
+                $this->parameters[$index] = $value;
+            }
+        else
+            $this->parameters[$key] = $value;
     }
 }
